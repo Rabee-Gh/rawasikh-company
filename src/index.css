@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  background-color: #FFFFFF;
+  color: #2D3748;
+  direction: rtl;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F9FC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00BFA5;
+  border-radius: 4px;
+}
+
+/* ── Gradient text ── */
+.text-gradient-teal {
+  background: linear-gradient(135deg, #00BFA5 0%, #00897B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, #E8621A 0%, #FF8C42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Section reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(.4, 0, .2, 1), transform 0.65s cubic-bezier(.4, 0, .2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.65s cubic-bezier(.4, 0, .2, 1), transform 0.65s cubic-bezier(.4, 0, .2, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.65s cubic-bezier(.4, 0, .2, 1), transform 0.65s cubic-bezier(.4, 0, .2, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Card ── */
+.card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: #00BFA5;
+}
+
+/* ── Teal button ── */
+.btn-teal {
+  background: linear-gradient(135deg, #00BFA5, #00897B);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 14px 32px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 191, 165, 0.3);
+  border: none;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+.btn-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 191, 165, 0.45);
+}
+
+/* ── Outline button ── */
+.btn-outline {
+  background: transparent;
+  color: #00BFA5;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 13px 32px;
+  border: 2px solid #00BFA5;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+.btn-outline:hover {
+  background: #00BFA5;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── Section label ── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 50px;
+  background: #E0F7F4;
+  color: #00897B;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ── Divider ── */
+.teal-divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #00BFA5, #00897B);
+  border-radius: 2px;
+  margin: 16px auto;
+}
+
+/* ── Nav ── */
+.nav-scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Hero shapes ── */
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* ── Shimmer loading ── */
+.shimmer-bg {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Stat card ── */
+.stat-card {
+  background: linear-gradient(135deg, #E0F7F4 0%, #F0FDFB 100%);
+  border: 1px solid rgba(0, 191, 165, 0.2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 191, 165, 0.2);
+}
+
+/* ── Timeline ── */
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00BFA5;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px rgba(0, 191, 165, 0.3);
+  flex-shrink: 0;
+}
+
+/* ── Brand card ── */
+.brand-card-shefzar {
+  background: linear-gradient(135deg, #FFF3EC 0%, #FFF8F5 100%);
+  border: 1px solid rgba(232, 98, 26, 0.2);
+}
+
+.brand-card-shefzar:hover {
+  border-color: #E8621A;
+  box-shadow: 0 12px 48px rgba(232, 98, 26, 0.15);
+}
+
+/* ── Input ── */
+.form-input {
+  width: 100%;
+  background: #F7F9FC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-size: 14px;
+  color: #2D3748;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #00BFA5;
+  box-shadow: 0 0 0 3px rgba(0, 191, 165, 0.12);
+  background: #fff;
+}
+
+.form-input::placeholder {
+  color: #A0AEC0;
+}
+
+/* ── Page transition ── */
+.page-enter {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+/* ── Floating shapes ── */
+@keyframes morphBlob {
+
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+}
+
+.morph-blob {
+  animation: morphBlob 8s ease-in-out infinite;
+}
+
+/* ── Progress bar ── */
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #E2E8F0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #00BFA5, #00897B);
+  transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ── Responsive typography ── */
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 17px;
+  }
+}
