@@ -1,10 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, TrendingUp, Zap, Globe, Award, ChevronDown, Star, Lightbulb, Settings, Rocket } from 'lucide-react';
-import { RBC_LOGO_WIDE, SHEFZAR_LOGO } from '../assets/images';
+import {
+    ArrowLeft, TrendingUp, Zap, Globe, Award, ChevronDown,
+    Star, Lightbulb, Settings, Rocket,
+    Tag, Megaphone, Sparkles,
+} from 'lucide-react';
+import { SHEFZAR_LOGO } from '../assets/images';
 
-/* ── CountUp ── */
+/* ─────────────────────────────────────────
+   CountUp
+───────────────────────────────────────── */
 function CountUp({ to, suffix = '', duration = 2000 }) {
     const [val, setVal] = useState(0);
     const [started, setStarted] = useState(false);
@@ -27,6 +33,391 @@ function CountUp({ to, suffix = '', duration = 2000 }) {
     return <span ref={ref}>{val}{suffix}</span>;
 }
 
+/* ─────────────────────────────────────────
+   SLIDE DATA
+───────────────────────────────────────── */
+const SLIDES = [
+    /* ── 1: Main brand slide ── */
+    {
+        id: 'main',
+        badge: { icon: <Sparkles size={13} />, text: 'شركة تشغيلية متكاملة', bg: '#E0F7F4', color: '#00897B' },
+        headline: ['نبتكر', 'المفاهيم', 'ونقود', 'النمو'],
+        headlineAccent: [false, true, false, true],
+        sub: 'شركة تشغيلية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية.',
+        cta: { label: 'اكتشف علاماتنا', to: '/brands' },
+        ctaSecondary: { label: 'تعرف علينا', to: '/about' },
+        accentColor: '#00BFA5',
+        accentDark: '#00897B',
+        visual: 'dashboard',
+    },
+    /* ── 2: Offer / promo slide ── */
+    {
+        id: 'offer',
+        badge: { icon: <Tag size={13} />, text: 'عرض حصري محدود', bg: '#F5F3FF', color: '#6D28D9' },
+        headline: ['احصل على', 'استشارة', 'مجانية', 'الآن'],
+        headlineAccent: [false, true, false, false],
+        sub: 'نقدم لك جلسة استشارية مجانية لتحليل عملياتك وتحديد فرص الأتمتة والنمو — بدون أي التزام.',
+        cta: { label: 'احجز استشارتك', to: '/contact' },
+        ctaSecondary: { label: 'اعرف أكثر', to: '/services' },
+        accentColor: '#6D28D9',
+        accentDark: '#4C1D95',
+        visual: 'offer',
+    },
+    /* ── 3: Brand announcement slide ── */
+    {
+        id: 'brand',
+        badge: { icon: <Megaphone size={13} />, text: 'إعلان جديد', bg: '#FFF3EC', color: '#D4580F' },
+        headline: ['شفزار', 'تتوسع', 'في مناطق', 'جديدة'],
+        headlineAccent: [true, false, false, false],
+        sub: 'علامتنا التجارية الرائدة في قطاع الأغذية والمشروبات تفتح أبوابها في مواقع جديدة — تجربة طعام استثنائية تصل إليك.',
+        cta: { label: 'اكتشف شفزار', to: '/brands' },
+        ctaSecondary: { label: 'تواصل معنا', to: '/contact' },
+        accentColor: '#D4580F',
+        accentDark: '#A8420A',
+        visual: 'brand',
+    },
+];
+
+const INTERVAL_MS = 5500;
+
+/* ─────────────────────────────────────────
+   Visual panels per slide
+───────────────────────────────────────── */
+function DashboardVisual() {
+    return (
+        <div className="hero-card-float relative w-full max-w-[420px] mx-auto">
+            <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 shadow-card-hover">
+                <div className="flex items-center justify-between mb-5">
+                    <div>
+                        <div className="text-[#718096] text-xs mb-1">لوحة التحكم التشغيلية</div>
+                        <div className="text-[#1A2332] font-black text-base">RBC Dashboard</div>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-to-br from-[#00BFA5] to-[#00897B] rounded-xl flex items-center justify-center">
+                        <Zap size={18} color="white" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                    {[
+                        { label: 'العلامات النشطة', val: '5', color: '#00BFA5' },
+                        { label: 'نسبة الأتمتة', val: '94%', color: '#E8621A' },
+                        { label: 'معدل النمو', val: '+32%', color: '#7C3AED' },
+                        { label: 'رضا العملاء', val: '4.9★', color: '#F59E0B' },
+                    ].map((s, i) => (
+                        <div key={i} className="bg-[#F7F9FC] rounded-xl p-3">
+                            <div className="font-black text-lg" style={{ color: s.color }}>{s.val}</div>
+                            <div className="text-[#718096] text-xs">{s.label}</div>
+                        </div>
+                    ))}
+                </div>
+                <div className="space-y-3">
+                    {[
+                        { label: 'F&B Operations', pct: 88 },
+                        { label: 'Digital Solutions', pct: 72 },
+                        { label: 'Market Expansion', pct: 60 },
+                    ].map((b, i) => (
+                        <div key={i}>
+                            <div className="flex justify-between text-xs text-[#718096] mb-1">
+                                <span>{b.label}</span>
+                                <span className="font-semibold text-[#00BFA5]">{b.pct}%</span>
+                            </div>
+                            <div className="progress-bar">
+                                <div className="progress-fill" style={{ width: `${b.pct}%` }} />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0]">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-[#E0F7F4] rounded-lg flex items-center justify-center text-[#00BFA5]">
+                        <TrendingUp size={15} />
+                    </div>
+                    <div>
+                        <div className="text-xs font-black text-[#1A2332]">نمو مستمر</div>
+                        <div className="text-[10px] text-[#00BFA5]">+32% هذا الربع</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function OfferVisual() {
+    return (
+        <div className="hero-card-float relative w-full max-w-[420px] mx-auto">
+            <div className="bg-white rounded-3xl border border-[#E2E8F0] p-7 shadow-card-hover text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-[#6D28D9] to-[#4C1D95] rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+                    <Tag size={28} color="white" />
+                </div>
+                <div className="text-[#718096] text-xs mb-2 uppercase tracking-widest">عرض حصري</div>
+                <div className="text-[#1A2332] font-black text-3xl mb-1">استشارة مجانية</div>
+                <div className="text-[#6D28D9] font-bold text-sm mb-5">بدون أي التزام</div>
+                <div className="space-y-3 text-right mb-6">
+                    {[
+                        'تحليل شامل للعمليات الحالية',
+                        'تحديد فرص الأتمتة والنمو',
+                        'خارطة طريق مخصصة لعملك',
+                    ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                            <div className="w-5 h-5 rounded-full bg-[#F5F3FF] border border-[#6D28D9]/30 flex items-center justify-center flex-shrink-0">
+                                <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+                            </div>
+                            <span className="text-[#4A5568] text-sm">{item}</span>
+                        </div>
+                    ))}
+                </div>
+                <div className="bg-[#F5F3FF] border border-[#6D28D9]/20 rounded-xl p-3">
+                    <div className="text-[#6D28D9] text-xs font-bold">⏳ العرض محدود — لا تفوّت الفرصة</div>
+                </div>
+            </div>
+            <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0]">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-[#F5F3FF] rounded-lg flex items-center justify-center text-[#6D28D9]">
+                        <Star size={15} fill="#6D28D9" />
+                    </div>
+                    <div>
+                        <div className="text-xs font-black text-[#1A2332]">تقييم العملاء</div>
+                        <div className="text-[10px] text-[#6D28D9]">4.9 / 5.0 ★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function BrandVisual({ logo }) {
+    return (
+        <div className="hero-card-float relative w-full max-w-[420px] mx-auto">
+            <div className="bg-white rounded-3xl border border-[#E2E8F0] p-7 shadow-card-hover text-center">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFF3EC] border border-[#D4580F]/20 text-[#D4580F] text-xs font-bold mb-5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4580F] animate-pulse" />
+                    توسع جديد
+                </div>
+                <div className="flex items-center justify-center mb-5 bg-[#F7F9FC] rounded-2xl p-4">
+                    <img
+                        src={logo}
+                        alt="شفزار"
+                        className="max-h-28 max-w-[220px] w-auto object-contain drop-shadow-md"
+                    />
+                </div>
+                <div className="text-[#1A2332] font-black text-xl mb-2">شفزار</div>
+                <div className="text-[#718096] text-sm mb-5 leading-relaxed">
+                    تجربة طعام استثنائية تصل إلى مناطق جديدة
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                    {['F&B', 'مطاعم', 'جودة عالية', 'توسع 2026'].map((t, i) => (
+                        <span key={i} className="px-3 py-1 rounded-full bg-[#FFF3EC] text-[#D4580F] text-xs font-semibold border border-[#D4580F]/20">
+                            {t}
+                        </span>
+                    ))}
+                </div>
+            </div>
+            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0]">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-[#FFF3EC] rounded-lg flex items-center justify-center text-[#D4580F]">
+                        <Rocket size={15} />
+                    </div>
+                    <div>
+                        <div className="text-xs font-black text-[#1A2332]">إطلاق جديد</div>
+                        <div className="text-[10px] text-[#D4580F]">2026 ←</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ─────────────────────────────────────────
+   HeroSlider component
+───────────────────────────────────────── */
+function HeroSlider() {
+    const [current, setCurrent] = useState(0);
+    const [progressKey, setProgressKey] = useState(0);
+    const timerRef = useRef(null);
+
+    const goTo = useCallback((idx) => {
+        setCurrent(idx);
+        setProgressKey(k => k + 1);
+    }, []);
+
+    const next = useCallback(() => goTo((current + 1) % SLIDES.length), [current, goTo]);
+
+    /* auto-advance */
+    useEffect(() => {
+        timerRef.current = setTimeout(next, INTERVAL_MS);
+        return () => clearTimeout(timerRef.current);
+    }, [current, next]);
+
+    const slide = SLIDES[current];
+
+    return (
+        <section className="relative flex flex-col overflow-hidden bg-gradient-to-br from-white via-[#F0FDFB] to-[#E0F7F4]">
+            {/* ── Background blobs (ثابتة) ── */}
+            <div className="hero-blob w-[500px] h-[500px] bg-[#00BFA5] top-[-100px] right-[-100px]" />
+            <div className="hero-blob w-[400px] h-[400px] bg-[#00897B] bottom-[-80px] left-[-80px]" />
+
+            {/* ── Grid overlay ── */}
+            <div
+                className="absolute inset-0 opacity-[0.04]"
+                style={{
+                    backgroundImage: 'linear-gradient(#00BFA5 1px, transparent 1px), linear-gradient(90deg, #00BFA5 1px, transparent 1px)',
+                    backgroundSize: '50px 50px',
+                }}
+            />
+
+            {/* ── Floating shapes ── */}
+            <div className="absolute top-1/4 right-[8%] w-16 h-16 rounded-2xl bg-[#00BFA5]/15 border border-[#00BFA5]/30 animate-float rotate-12" />
+            <div className="absolute bottom-1/3 left-[6%] w-10 h-10 rounded-xl bg-[#E8621A]/15 border border-[#E8621A]/30 animate-float-slow -rotate-6" />
+            <div className="absolute top-1/2 left-[15%] w-6 h-6 rounded-full bg-[#00BFA5]/30 animate-bounce-soft" />
+
+            {/* ── Slides ── */}
+            <div className="relative">
+                {SLIDES.map((s, idx) => (
+                    <div key={s.id} className={`hero-slide ${idx === current ? 'active' : ''}`}>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 w-full min-h-screen flex flex-col justify-center">
+                            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+                                {/* ── Left: Text ── */}
+                                <div>
+                                    {/* Badge */}
+                                    <div className="slide-content-item opacity-0 mb-6">
+                                        <span
+                                            className="section-label"
+                                            style={{ background: s.badge.bg, color: s.badge.color }}
+                                        >
+                                            <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: s.badge.color }} />
+                                            {s.badge.text}
+                                        </span>
+                                    </div>
+
+                                    {/* Headline */}
+                                    <h1 className="slide-content-item opacity-0 text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 text-[#1A2332]">
+                                        {s.headline.map((word, wi) => (
+                                            <span key={wi}>
+                                                {s.headlineAccent[wi]
+                                                    ? <span style={{
+                                                        background: `linear-gradient(135deg, ${s.accentColor}, ${s.accentDark})`,
+                                                        WebkitBackgroundClip: 'text',
+                                                        WebkitTextFillColor: 'transparent',
+                                                        backgroundClip: 'text',
+                                                    }}>{word}</span>
+                                                    : <span>{word}</span>
+                                                }
+                                                {wi < s.headline.length - 1 && (wi % 2 === 1 ? <br /> : ' ')}
+                                            </span>
+                                        ))}
+                                    </h1>
+
+                                    {/* Sub */}
+                                    <p className="slide-content-item opacity-0 text-[#718096] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
+                                        {s.sub}
+                                    </p>
+
+                                    {/* CTAs */}
+                                    <div className="slide-content-item opacity-0 flex flex-col sm:flex-row gap-4">
+                                        <Link
+                                            to={s.cta.to}
+                                            className="inline-flex items-center justify-center gap-2 font-bold rounded-full px-7 py-3.5 text-sm transition-all duration-300 hover:-translate-y-1"
+                                            style={{
+                                                background: `linear-gradient(135deg, ${s.accentColor}, ${s.accentDark})`,
+                                                color: '#fff',
+                                                boxShadow: `0 4px 20px ${s.accentColor}44`,
+                                            }}
+                                        >
+                                            {s.cta.label}
+                                            <ArrowLeft size={15} />
+                                        </Link>
+                                        <Link
+                                            to={s.ctaSecondary.to}
+                                            className="inline-flex items-center justify-center gap-2 font-bold rounded-full px-7 py-3.5 text-sm border-2 transition-all duration-300 hover:-translate-y-1"
+                                            style={{
+                                                borderColor: s.accentColor,
+                                                color: s.accentColor,
+                                            }}
+                                        >
+                                            {s.ctaSecondary.label}
+                                        </Link>
+                                    </div>
+
+                                    {/* Trust row */}
+                                    <div className="slide-content-item opacity-0 flex items-center gap-4 mt-8 pt-8 border-t border-[#E2E8F0]">
+                                        <div className="flex -space-x-2 space-x-reverse">
+                                            {['#00BFA5', '#00897B', '#E8621A', '#7C3AED'].map((c, i) => (
+                                                <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold" style={{ background: c }}>
+                                                    {String.fromCharCode(65 + i)}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div>
+                                            <div className="flex gap-0.5 mb-0.5">
+                                                {[...Array(5)].map((_, i) => <Star key={i} size={11} fill="#F59E0B" color="#F59E0B" />)}
+                                            </div>
+                                            <p className="text-xs text-[#718096]">موثوق من قِبل عشرات الشركاء</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* ── Right: Visual (responsive — ينزل للأسفل على الموبايل) ── */}
+                                <div className="slide-content-item opacity-0">
+                                    {s.visual === 'dashboard' && <DashboardVisual />}
+                                    {s.visual === 'offer' && <OfferVisual />}
+                                    {s.visual === 'brand' && <BrandVisual logo={SHEFZAR_LOGO} />}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* ── Controls bar (dots + progress فقط) ── */}
+            <div className="relative z-20 pb-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto flex items-center gap-4">
+
+                    {/* Dots */}
+                    <div className="flex items-center gap-2">
+                        {SLIDES.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => goTo(idx)}
+                                className={`slide-dot ${idx === current ? 'active' : ''}`}
+                                aria-label={`الانتقال إلى البنر ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="flex-1 max-w-[180px]">
+                        <div className="slide-progress-bar" style={{ background: 'rgba(0,0,0,0.12)' }}>
+                            <div
+                                key={progressKey}
+                                className="slide-progress-fill running"
+                                style={{
+                                    transitionDuration: `${INTERVAL_MS}ms`,
+                                    background: slide.accentColor,
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Counter */}
+                    <div className="text-[#A0AEC0] text-xs font-mono">
+                        {String(current + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}
+                    </div>
+                </div>
+            </div>
+
+            {/* ── Scroll indicator ── */}
+            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex-col items-center gap-1.5 animate-bounce-soft pointer-events-none hidden sm:flex">
+                <span className="text-[#A0AEC0] text-xs">اسحب للأسفل</span>
+                <ChevronDown size={18} className="text-[#00BFA5]" />
+            </div>
+        </section>
+    );
+}
+/* ─────────────────────────────────────────
+   Static data
+───────────────────────────────────────── */
 const stats = [
     { icon: <Award size={22} />, value: 5, suffix: '+', label: 'علامات تجارية' },
     { icon: <Globe size={22} />, value: 3, suffix: '+', label: 'قطاعات مستهدفة' },
@@ -39,247 +430,55 @@ const features = [
         icon: <Lightbulb size={28} />,
         title: 'نبتكر المفاهيم',
         desc: 'نصمم علامات تجارية مبتكرة مدروسة بعمق، تجمع بين فهم السوق وتوقعات العملاء.',
-        color: '#00BFA5',
-        bg: '#E0F7F4',
+        color: '#00BFA5', bg: '#E0F7F4',
     },
     {
         icon: <Settings size={28} />,
         title: 'نؤتمت العمليات',
         desc: 'نحول كل عملية تشغيلية إلى منظومة رقمية ذكية تعمل بكفاءة قصوى على مدار الساعة.',
-        color: '#E8621A',
-        bg: '#FFF3EC',
+        color: '#E8621A', bg: '#FFF3EC',
     },
     {
         icon: <Rocket size={28} />,
         title: 'نقود النمو',
         desc: 'نضع استراتيجيات توسع مدروسة مبنية على بيانات دقيقة لضمان نمو مستدام وحقيقي.',
-        color: '#7C3AED',
-        bg: '#F5F3FF',
+        color: '#7C3AED', bg: '#F5F3FF',
     },
 ];
 
 const testimonials = [
     {
-        name: 'أحمد الشمري',
-        role: 'مدير تنفيذي',
+        name: 'أحمد الشمري', role: 'مدير تنفيذي',
         text: 'RBC Solutions غيّرت طريقة تفكيرنا في التشغيل. الأتمتة التي طبقوها وفّرت علينا ساعات عمل يومية.',
         rating: 5,
     },
     {
-        name: 'سارة العتيبي',
-        role: 'مؤسسة شركة ناشئة',
+        name: 'سارة العتيبي', role: 'مؤسسة شركة ناشئة',
         text: 'الفريق محترف جداً ويفهم احتياجات السوق السعودي بعمق. نتائج ملموسة من الشهر الأول.',
         rating: 5,
     },
     {
-        name: 'محمد القحطاني',
-        role: 'مستثمر',
+        name: 'محمد القحطاني', role: 'مستثمر',
         text: 'محفظتهم التجارية متنوعة ومدروسة. شراكة استراتيجية حقيقية وليست مجرد خدمة.',
         rating: 5,
     },
 ];
 
+/* ─────────────────────────────────────────
+   HomePage
+───────────────────────────────────────── */
 export default function HomePage() {
-    const heroRef = useRef(null);
-
-    useEffect(() => {
-        // Stagger hero elements
-        const els = heroRef.current?.querySelectorAll('[data-hero]');
-        els?.forEach((el, i) => {
-            setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }, 200 + i * 150);
-        });
-    }, []);
-
     return (
         <div>
             <Helmet>
                 <title>RBC Solutions | الرئيسية — حلول الأعمال المتكاملة</title>
                 <meta name="description" content="شركة تشغيلية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية." />
             </Helmet>
-            {/* ══════════════════════════════════════════
-          HERO
-      ══════════════════════════════════════════ */}
-            <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-[#F0FDFB] to-[#E0F7F4]">
-                {/* Decorative blobs */}
-                <div className="hero-blob w-[500px] h-[500px] bg-[#00BFA5] top-[-100px] right-[-100px]" />
-                <div className="hero-blob w-[400px] h-[400px] bg-[#00897B] bottom-[-80px] left-[-80px]" />
 
-                {/* Animated grid */}
-                <div
-                    className="absolute inset-0 opacity-[0.04]"
-                    style={{
-                        backgroundImage: 'linear-gradient(#00BFA5 1px, transparent 1px), linear-gradient(90deg, #00BFA5 1px, transparent 1px)',
-                        backgroundSize: '50px 50px',
-                    }}
-                />
+            {/* ══ HERO SLIDER ══ */}
+            <HeroSlider />
 
-                {/* Floating shapes */}
-                <div className="absolute top-1/4 right-[8%] w-16 h-16 rounded-2xl bg-[#00BFA5]/15 border border-[#00BFA5]/30 animate-float rotate-12" />
-                <div className="absolute bottom-1/3 left-[6%] w-10 h-10 rounded-xl bg-[#E8621A]/15 border border-[#E8621A]/30 animate-float-slow -rotate-6" />
-                <div className="absolute top-1/2 left-[15%] w-6 h-6 rounded-full bg-[#00BFA5]/30 animate-bounce-soft" />
-
-                <div ref={heroRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        {/* Left text */}
-                        <div>
-                            {/* Badge */}
-                            <div
-                                data-hero
-                                className="section-label mb-6"
-                                style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                            >
-                                <span className="w-2 h-2 rounded-full bg-[#00BFA5] animate-pulse" />
-                                شركة تشغيلية متكاملة
-                            </div>
-
-                            <h1
-                                data-hero
-                                className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 text-[#1A2332]"
-                                style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                            >
-                                نبتكر{' '}
-                                <span className="text-gradient-teal">المفاهيم</span>
-                                <br />
-                                ونقود{' '}
-                                <span className="text-gradient-teal">النمو</span>
-                            </h1>
-
-                            <p
-                                data-hero
-                                className="text-[#718096] text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
-                                style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                            >
-                                شركة تشغيلية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية — من خلال الأتمتة الشاملة والتشغيل الاحترافي المستدام.
-                            </p>
-
-                            <div
-                                data-hero
-                                className="flex flex-col sm:flex-row gap-4"
-                                style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                            >
-                                <Link to="/brands" className="btn-teal text-center text-sm">
-                                    اكتشف علاماتنا التجارية
-                                </Link>
-                                <Link to="/about" className="btn-outline text-center text-sm">
-                                    تعرف علينا
-                                </Link>
-                            </div>
-
-                            {/* Trust badges */}
-                            <div
-                                data-hero
-                                className="flex items-center gap-4 mt-8 pt-8 border-t border-[#E2E8F0]"
-                                style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                            >
-                                <div className="flex -space-x-2 space-x-reverse">
-                                    {['#00BFA5', '#00897B', '#E8621A', '#7C3AED'].map((c, i) => (
-                                        <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold" style={{ background: c }}>
-                                            {String.fromCharCode(65 + i)}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <div className="flex gap-0.5 mb-0.5">
-                                        {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="#F59E0B" color="#F59E0B" />)}
-                                    </div>
-                                    <p className="text-xs text-[#718096]">موثوق من قِبل عشرات الشركاء</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right: Visual */}
-                        <div
-                            data-hero
-                            className="relative"
-                            style={{ opacity: 0, transform: 'translateY(20px)', transition: 'all 0.6s ease' }}
-                        >
-                            {/* Main card */}
-                            <div className="relative bg-white rounded-3xl shadow-card-hover p-8 border border-[#E2E8F0] animate-float">
-                                {/* Header */}
-                                <div className="flex items-center justify-between mb-6">
-                                    <div>
-                                        <div className="text-xs text-[#718096] mb-1">لوحة التحكم التشغيلية</div>
-                                        <div className="font-black text-[#1A2332]">RBC Dashboard</div>
-                                    </div>
-                                    <div className="w-10 h-10 bg-gradient-to-br from-[#00BFA5] to-[#00897B] rounded-xl flex items-center justify-center">
-                                        <Zap size={18} color="white" />
-                                    </div>
-                                </div>
-
-                                {/* Stats mini */}
-                                <div className="grid grid-cols-2 gap-3 mb-6">
-                                    {[
-                                        { label: 'العلامات النشطة', val: '5', color: '#00BFA5' },
-                                        { label: 'نسبة الأتمتة', val: '94%', color: '#E8621A' },
-                                        { label: 'معدل النمو', val: '+32%', color: '#7C3AED' },
-                                        { label: 'رضا العملاء', val: '4.9★', color: '#F59E0B' },
-                                    ].map((s, i) => (
-                                        <div key={i} className="bg-[#F7F9FC] rounded-xl p-3">
-                                            <div className="font-black text-lg" style={{ color: s.color }}>{s.val}</div>
-                                            <div className="text-xs text-[#718096]">{s.label}</div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Progress bars */}
-                                <div className="space-y-3">
-                                    {[
-                                        { label: 'F&B Operations', pct: 88 },
-                                        { label: 'Digital Solutions', pct: 72 },
-                                        { label: 'Market Expansion', pct: 60 },
-                                    ].map((b, i) => (
-                                        <div key={i}>
-                                            <div className="flex justify-between text-xs text-[#718096] mb-1">
-                                                <span>{b.label}</span>
-                                                <span className="font-semibold text-[#00BFA5]">{b.pct}%</span>
-                                            </div>
-                                            <div className="progress-bar">
-                                                <div className="progress-fill" style={{ width: `${b.pct}%` }} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Floating mini cards */}
-                            {/* <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0] animate-float-slow">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 bg-[#E0F7F4] rounded-lg flex items-center justify-center text-sm">🔥</div>
-                                    <div>
-                                        <div className="text-xs font-bold text-[#1A2332]">شفزار</div>
-                                        <div className="text-[10px] text-[#00BFA5]">نشط</div>
-                                    </div>
-                                </div>
-                            </div> */}
-
-                            <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0] animate-float">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 bg-[#FFF3EC] rounded-lg flex items-center justify-center text-[#E8621A]">
-                                        <TrendingUp size={16} />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-bold text-[#1A2332]">نمو مستمر</div>
-                                        <div className="text-[10px] text-[#E8621A]">+32% هذا الربع</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-soft">
-                    <span className="text-[#A0AEC0] text-xs">اسحب للأسفل</span>
-                    <ChevronDown size={20} className="text-[#00BFA5]" />
-                </div>
-            </section>
-
-            {/* ══════════════════════════════════════════
-          STATS
-      ══════════════════════════════════════════ */}
+            {/* ══ STATS ══ */}
             <section className="py-16 bg-white border-y border-[#E2E8F0]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -298,9 +497,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════
-          FEATURES
-      ══════════════════════════════════════════ */}
+            {/* ══ FEATURES ══ */}
             <section className="py-20 sm:py-28 bg-[#F7F9FC]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-14">
@@ -314,18 +511,10 @@ export default function HomePage() {
                             نجمع بين الإبداع في بناء المفاهيم التجارية والكفاءة في تشغيلها لنحقق نتائج استثنائية.
                         </p>
                     </div>
-
                     <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
                         {features.map((f, i) => (
-                            <div
-                                key={i}
-                                className="card p-8 text-center reveal"
-                                style={{ transitionDelay: `${i * 0.15}s` }}
-                            >
-                                <div
-                                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
-                                    style={{ background: f.bg, color: f.color }}
-                                >
+                            <div key={i} className="card p-8 text-center reveal" style={{ transitionDelay: `${i * 0.15}s` }}>
+                                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: f.bg, color: f.color }}>
                                     {f.icon}
                                 </div>
                                 <h3 className="text-xl font-black text-[#1A2332] mb-3">{f.title}</h3>
@@ -337,9 +526,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════
-          BRANDS PREVIEW
-      ══════════════════════════════════════════ */}
+            {/* ══ BRANDS PREVIEW ══ */}
             <section className="py-20 sm:py-28 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -367,30 +554,21 @@ export default function HomePage() {
                                 <ArrowLeft size={16} />
                             </Link>
                         </div>
-
-                        {/* Shefzar preview card */}
                         <div className="reveal-right">
                             <div className="brand-card-shefzar card p-8 text-center">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF3EC] text-[#E8621A] text-xs font-bold mb-6">
                                     <span className="w-1.5 h-1.5 rounded-full bg-[#E8621A] animate-pulse" />
                                     علامة تجارية نشطة
                                 </div>
-                                {/* Real Shefzar logo */}
                                 <div className="flex items-center justify-center mb-5">
-                                    <img
-                                        src={SHEFZAR_LOGO}
-                                        alt="شفزار Shefzar"
-                                        className="max-h-40 max-w-[280px] w-auto object-contain drop-shadow-md"
-                                    />
+                                    <img src={SHEFZAR_LOGO} alt="شفزار Shefzar" className="max-h-40 max-w-[280px] w-auto object-contain drop-shadow-md" />
                                 </div>
                                 <p className="text-[#718096] text-sm leading-relaxed mb-6">
                                     علامة تجارية رائدة في قطاع الأغذية والمشروبات، تقدم تجربة طعام استثنائية مدفوعة بالشغف والجودة والابتكار.
                                 </p>
                                 <div className="flex flex-wrap gap-2 justify-center">
                                     {['F&B', 'مطاعم', 'جودة عالية', 'تجربة فريدة'].map((t, i) => (
-                                        <span key={i} className="px-3 py-1 rounded-full bg-[#FFF3EC] text-[#E8621A] text-xs font-semibold border border-[#E8621A]/20">
-                                            {t}
-                                        </span>
+                                        <span key={i} className="px-3 py-1 rounded-full bg-[#FFF3EC] text-[#E8621A] text-xs font-semibold border border-[#E8621A]/20">{t}</span>
                                     ))}
                                 </div>
                             </div>
@@ -399,9 +577,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════
-          TESTIMONIALS
-      ══════════════════════════════════════════ */}
+            {/* ══ TESTIMONIALS ══ */}
             <section className="py-20 sm:py-28 bg-[#F7F9FC]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-14">
