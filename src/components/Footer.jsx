@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, ArrowLeft } from 'lucide-react';
-import { RBC_LOGO, RBC_LOGO_WIDE } from '../assets/images';
+import { RBC_LOGO } from '../assets/images';
+import { FOOTER_LINKS, FOOTER_BRAND, FOOTER_CTA } from '../data/footer.data';
 
 export default function Footer() {
     const year = new Date().getFullYear();
@@ -10,16 +11,16 @@ export default function Footer() {
             <div className="bg-gradient-to-r from-[#00BFA5] to-[#00897B] py-14 px-4">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-4">
-                        هل أنت مستعد للانطلاق معنا؟
+                        {FOOTER_CTA.headline}
                     </h2>
                     <p className="text-white/80 text-base sm:text-lg mb-8 max-w-xl mx-auto">
-                        سواء كنت مستثمراً أو شريكاً أو تبحث عن فرصة — فريقنا جاهز للاستماع.
+                        {FOOTER_CTA.sub}
                     </p>
                     <Link
-                        to="/contact"
+                        to={FOOTER_CTA.btnPath}
                         className="inline-flex items-center gap-2 bg-white text-[#00897B] font-black px-8 py-4 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                     >
-                        تواصل معنا الآن
+                        {FOOTER_CTA.btnLabel}
                         <ArrowLeft size={18} />
                     </Link>
                 </div>
@@ -35,12 +36,12 @@ export default function Footer() {
                                 <img src={RBC_LOGO} alt="RBC Solutions" className="w-full h-full object-contain scale-125" />
                             </div>
                             <div>
-                                <div className="font-black text-lg">RBC Solutions</div>
-                                <div className="text-[#00BFA5] text-xs font-semibold">حلول الأعمال المتكاملة</div>
+                                <div className="font-black text-lg">{FOOTER_BRAND.name}</div>
+                                <div className="text-[#00BFA5] text-xs font-semibold">{FOOTER_BRAND.tagline}</div>
                             </div>
                         </div>
                         <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-6">
-                            شركة تشغيلية متكاملة تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية.
+                            {FOOTER_BRAND.desc}
                         </p>
                         {/* <div className="flex gap-3">
                             {['in', 'X', '📸'].map((s, i) => (
@@ -55,13 +56,7 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold text-sm mb-5 text-white/90">روابط سريعة</h4>
                         <ul className="space-y-3">
-                            {[
-                                { label: 'الرئيسية', path: '/' },
-                                { label: 'من نحن', path: '/about' },
-                                { label: 'علاماتنا التجارية', path: '/brands' },
-                                { label: 'خدماتنا', path: '/services' },
-                                { label: 'تواصل معنا', path: '/contact' },
-                            ].map(l => (
+                            {FOOTER_LINKS.map(l => (
                                 <li key={l.path}>
                                     <Link to={l.path} className="text-white/50 hover:text-[#00BFA5] text-sm transition-colors duration-200">
                                         {l.label}
@@ -92,10 +87,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-white/10 mt-12 pt-6 flex flex-center sm:flex-row items-center justify-center gap-3">
-                    <p className="text-white/30 text-xs">© {year}  شركة رواسخ الأعمال. جميع الحقوق محفوظة.</p>
-                    {/* <p className="text-white/30 text-xs flex items-center gap-1">
-                        صُنع بـ <span className="text-[#00BFA5]">♥</span> في المملكة العربية السعودية
-                    </p> */}
+                    <p className="text-white/30 text-xs">© {year}  {FOOTER_BRAND.rights}</p>
                 </div>
             </div>
         </footer>

@@ -1,38 +1,16 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Target, Eye, Heart, Users, ArrowLeft, CheckCircle } from 'lucide-react';
-import { RBC_LOGO, RBC_LOGO_CLEAR, RBC_LOGO_WIDE } from '../assets/images';
-
-const values = [
-    { icon: <Target size={24} />, title: 'الابتكار المستمر', desc: 'نؤمن أن الابتكار ليس خياراً بل ضرورة. نسعى دائماً لتقديم مفاهيم تجارية جديدة تتجاوز توقعات السوق.', color: '#00BFA5', bg: '#E0F7F4' },
-    { icon: <Eye size={24} />, title: 'الشفافية والمصداقية', desc: 'نبني علاقاتنا مع شركائنا على أساس من الثقة والشفافية الكاملة في كل جانب من جوانب العمل.', color: '#E8621A', bg: '#FFF3EC' },
-    { icon: <Heart size={24} />, title: 'الشغف بالتميز', desc: 'كل ما نقدمه يعكس شغفنا الحقيقي بالتميز والجودة. لا نقبل بأقل من الأفضل في كل ما نصنعه.', color: '#7C3AED', bg: '#F5F3FF' },
-    { icon: <Users size={24} />, title: 'الشراكة الحقيقية', desc: 'لسنا مجرد مزودي خدمة — نحن شركاء استراتيجيون نستثمر في نجاح عملائنا كما نستثمر في نجاحنا.', color: '#F59E0B', bg: '#FFFBEB' },
-];
-
-const team = [
-    { name: 'عبدالله الرشيد', role: 'الرئيس التنفيذي', exp: '15+ سنة', spec: 'استراتيجية الأعمال والتوسع', initial: 'ع' },
-    { name: 'محمد السالم', role: 'مدير العمليات', exp: '12+ سنة', spec: 'التشغيل والأتمتة', initial: 'م' },
-    { name: 'سارة الأحمد', role: 'مديرة التطوير الرقمي', exp: '10+ سنة', spec: 'الحلول الرقمية والذكاء الاصطناعي', initial: 'س' },
-    { name: 'خالد العمر', role: 'مدير العلامات التجارية', exp: '8+ سنة', spec: 'بناء العلامات وتطويرها', initial: 'خ' },
-];
-
-const milestones = [
-    { year: '2015', title: 'التأسيس', desc: 'تأسست RBC Solutions برؤية واضحة لبناء منظومة تشغيلية متكاملة في السوق السعودي.' },
-    { year: '2017', title: 'أول علامة تجارية', desc: 'إطلاق أول علامة تجارية في قطاع الأغذية والمشروبات وتحقيق نجاح استثنائي في السنة الأولى.' },
-    { year: '2019', title: 'التوسع الرقمي', desc: 'دخول قطاع الحلول الرقمية وتطوير منصات أتمتة متخصصة لدعم العمليات التشغيلية.' },
-    { year: '2021', title: 'إطلاق شفزار', desc: 'إطلاق علامة شفزار التجارية التي أصبحت من أبرز العلامات في قطاع F&B بالمنطقة.' },
-    { year: '2023', title: 'التوسع الخليجي', desc: 'بدء التوسع في دول مجلس التعاون الخليجي وبناء شراكات استراتيجية إقليمية.' },
-    { year: '2025', title: 'محفظة متنوعة', desc: 'محفظة تضم 5+ علامات تجارية نشطة وخطط طموحة للتوسع في أسواق جديدة.' },
-];
+import { Target, Eye, ArrowLeft, CheckCircle } from 'lucide-react';
+import { RBC_LOGO } from '../assets/images';
+import { VALUES, TEAM, MILESTONES, MISSION, VISION, ABOUT_PAGE_META, ABOUT_CTA } from '../data/about.data';
 
 export default function AboutPage() {
     return (
         <div className="pt-20">
             <Helmet>
-                <title>من نحن | RBC Solutions</title>
-                <meta name="description" content="تعرف على RBC Solutions — شركة تشغيلية متكاملة تؤمن بأن النمو المستدام يبنى على أساس تشغيلي متين يجمع بين الابتكار والكفاءة والتقنية." />
+                <title>{ABOUT_PAGE_META.title}</title>
+                <meta name="description" content={ABOUT_PAGE_META.description} />
             </Helmet>
             {/* ── Page Hero ── */}
             <section className="relative py-20 sm:py-28 bg-gradient-to-br from-[#F0FDFB] to-white overflow-hidden">
@@ -55,7 +33,7 @@ export default function AboutPage() {
                     </h1>
                     <div className="teal-divider reveal" />
                     <p className="text-[#718096] text-base sm:text-lg max-w-3xl mx-auto mt-6 leading-relaxed reveal">
-                        تأسست RBC Solutions على إيمان راسخ بأن النمو المستدام لا يأتي من الصفقات العابرة، بل من بناء أساس تشغيلي متين يجمع بين الابتكار والكفاءة والتقنية.
+                        {ABOUT_PAGE_META.heroIntro}
                     </p>
                 </div>
             </section>
@@ -68,12 +46,10 @@ export default function AboutPage() {
                             <div className="w-14 h-14 bg-[#E0F7F4] rounded-2xl flex items-center justify-center mb-5">
                                 <Target size={26} className="text-[#00BFA5]" />
                             </div>
-                            <h3 className="text-2xl font-black text-[#1A2332] mb-4">مهمتنا</h3>
-                            <p className="text-[#718096] leading-relaxed mb-5">
-                                تمكين الشركات والعلامات التجارية من تحقيق أقصى إمكاناتها من خلال تصميم وتطبيق حلول تشغيلية مبتكرة وفعالة، تخلق قيمة حقيقية ومستدامة لعملائهم وموظفيهم والمجتمع.
-                            </p>
+                            <h3 className="text-2xl font-black text-[#1A2332] mb-4">{MISSION.title}</h3>
+                            <p className="text-[#718096] leading-relaxed mb-5">{MISSION.text}</p>
                             <div className="space-y-2">
-                                {['ابتكار مفاهيم تجارية ناجحة', 'تشغيل احترافي بمعايير عالمية', 'خلق قيمة مستدامة للجميع'].map((item, i) => (
+                                {MISSION.bullets.map((item, i) => (
                                     <div key={i} className="flex items-center gap-2 text-sm text-[#4A5568]">
                                         <CheckCircle size={16} className="text-[#00BFA5] flex-shrink-0" />
                                         {item}
@@ -86,12 +62,10 @@ export default function AboutPage() {
                             <div className="w-14 h-14 bg-[#FFF3EC] rounded-2xl flex items-center justify-center mb-5">
                                 <Eye size={26} className="text-[#E8621A]" />
                             </div>
-                            <h3 className="text-2xl font-black text-[#1A2332] mb-4">رؤيتنا</h3>
-                            <p className="text-[#718096] leading-relaxed mb-5">
-                                أن نكون المجموعة التشغيلية الأولى والأكثر ابتكاراً في المنطقة، نقود التحول في قطاع الأغذية والمشروبات والحلول الرقمية من خلال محفظة علامات تجارية رائدة ومؤثرة.
-                            </p>
+                            <h3 className="text-2xl font-black text-[#1A2332] mb-4">{VISION.title}</h3>
+                            <p className="text-[#718096] leading-relaxed mb-5">{VISION.text}</p>
                             <div className="space-y-2">
-                                {['الريادة في قطاع F&B الإقليمي', 'بناء محفظة علامات تجارية متنوعة', 'التوسع في أسواق الخليج والعالم'].map((item, i) => (
+                                {VISION.bullets.map((item, i) => (
                                     <div key={i} className="flex items-center gap-2 text-sm text-[#4A5568]">
                                         <CheckCircle size={16} className="text-[#E8621A] flex-shrink-0" />
                                         {item}
@@ -114,7 +88,7 @@ export default function AboutPage() {
                         <div className="teal-divider reveal" />
                     </div>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {values.map((v, i) => (
+                        {VALUES.map((v, i) => (
                             <div key={i} className="card p-6 text-center reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: v.bg, color: v.color }}>
                                     {v.icon}
@@ -140,13 +114,13 @@ export default function AboutPage() {
 
                     {/* Mobile: single column */}
                     <div className="flex flex-col gap-6 sm:hidden">
-                        {milestones.map((m, i) => (
+                        {MILESTONES.map((m, i) => (
                             <div key={i} className="flex gap-4 reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                                 <div className="flex flex-col items-center flex-shrink-0">
                                     <div className="w-8 h-8 rounded-full bg-[#E0F7F4] border-2 border-[#00BFA5] flex items-center justify-center">
                                         <div className="w-2.5 h-2.5 rounded-full bg-[#00BFA5]" />
                                     </div>
-                                    {i < milestones.length - 1 && (
+                                    {i < MILESTONES.length - 1 && (
                                         <div className="w-0.5 flex-1 bg-gradient-to-b from-[#00BFA5]/50 to-[#00BFA5]/10 mt-1" />
                                     )}
                                 </div>
@@ -166,7 +140,7 @@ export default function AboutPage() {
                         {/* Center line */}
                         <div className="absolute left-1/2 -translate-x-1/2 top-3 bottom-3 w-0.5 bg-gradient-to-b from-[#00BFA5] via-[#00BFA5]/40 to-transparent pointer-events-none" />
 
-                        {milestones.map((m, i) => {
+                        {MILESTONES.map((m, i) => {
                             const isLeft = i % 2 === 0;
                             return (
                                 <div key={i} className="grid grid-cols-[1fr_40px_1fr] items-center gap-0 reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
@@ -218,7 +192,7 @@ export default function AboutPage() {
                         <div className="teal-divider reveal" />
                     </div>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {team.map((member, i) => (
+                        {TEAM.map((member, i) => (
                             <div key={i} className="card p-6 text-center reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00BFA5] to-[#00897B] flex items-center justify-center text-white font-black text-2xl mx-auto mb-4">
                                     {member.initial}
@@ -239,11 +213,11 @@ export default function AboutPage() {
             <section className="py-16 bg-white">
                 <div className="max-w-3xl mx-auto px-4 text-center">
                     <h2 className="text-2xl sm:text-3xl font-black text-[#1A2332] mb-4 reveal">
-                        هل تريد أن تكون جزءاً من قصة نجاحنا؟
+                        {ABOUT_CTA.heading}
                     </h2>
-                    <p className="text-[#718096] mb-8 reveal">تواصل معنا اليوم واكتشف كيف يمكننا بناء شراكة استراتيجية حقيقية.</p>
-                    <Link to="/contact" className="btn-teal inline-flex items-center gap-2 reveal">
-                        تواصل معنا
+                    <p className="text-[#718096] mb-8 reveal">{ABOUT_CTA.desc}</p>
+                    <Link to={ABOUT_CTA.btnPath} className="btn-teal inline-flex items-center gap-2 reveal">
+                        {ABOUT_CTA.btnLabel}
                         <ArrowLeft size={16} />
                     </Link>
                 </div>

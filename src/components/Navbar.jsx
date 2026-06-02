@@ -2,14 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { RBC_LOGO } from '../assets/images';
-
-const links = [
-    { label: 'الرئيسية', path: '/' },
-    { label: 'من نحن', path: '/about' },
-    { label: 'علاماتنا', path: '/brands' },
-    { label: 'خدماتنا', path: '/services' },
-    { label: 'تواصل معنا', path: '/contact' },
-];
+import { NAV_LINKS, NAV_CTA, BRAND_INFO } from '../data/navbar.data';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -41,14 +34,14 @@ export default function Navbar() {
                             <img src={RBC_LOGO} alt="RBC Solutions" className="w-full h-full object-contain scale-125" />
                         </div>
                         <div className="leading-tight">
-                            <div className="font-black text-base sm:text-lg text-[#1A2332]">RBC Solutions</div>
-                            <div className="text-[10px] sm:text-[11px] text-[#00BFA5] font-semibold tracking-wide">حلول الأعمال المتكاملة</div>
+                            <div className="font-black text-base sm:text-lg text-[#1A2332]">{BRAND_INFO.name}</div>
+                            <div className="text-[10px] sm:text-[11px] text-[#00BFA5] font-semibold tracking-wide">{BRAND_INFO.tagline}</div>
                         </div>
                     </Link>
 
                     {/* Desktop links */}
                     <nav className="hidden lg:flex items-center gap-1">
-                        {links.map(link => (
+                        {NAV_LINKS.map(link => (
                             <Link
                                 key={link.path}
                                 to={link.path}
@@ -67,8 +60,8 @@ export default function Navbar() {
 
                     {/* CTA */}
                     <div className="hidden lg:flex items-center gap-3">
-                        <Link to="/contact" className="btn-teal text-sm py-2.5 px-6">
-                            ابدأ معنا
+                        <Link to={NAV_CTA.path} className="btn-teal text-sm py-2.5 px-6">
+                            {NAV_CTA.label}
                         </Link>
                     </div>
 
@@ -85,7 +78,7 @@ export default function Navbar() {
                 {/* Mobile menu */}
                 <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-80 mt-3' : 'max-h-0'}`}>
                     <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-card p-3 flex flex-col gap-1">
-                        {links.map(link => (
+                        {NAV_LINKS.map(link => (
                             <Link
                                 key={link.path}
                                 to={link.path}
@@ -97,8 +90,8 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
-                        <Link to="/contact" className="btn-teal text-sm text-center mt-1 py-3">
-                            ابدأ معنا
+                        <Link to={NAV_CTA.path} className="btn-teal text-sm text-center mt-1 py-3">
+                            {NAV_CTA.label}
                         </Link>
                     </div>
                 </div>

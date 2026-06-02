@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import {
-    ArrowLeft, TrendingUp, Zap, Globe, Award, ChevronDown,
-    Star, Lightbulb, Settings, Rocket,
-    Tag, Megaphone, Sparkles,
-} from 'lucide-react';
+import { ArrowLeft, TrendingUp, Zap, ChevronDown, Star, Rocket } from 'lucide-react';
 import { SHEFZAR_LOGO } from '../assets/images';
+import {
+    HERO_SLIDES, HERO_INTERVAL_MS,
+    HOME_STATS, HOME_FEATURES, HOME_BRANDS_SECTION, HOME_TESTIMONIALS,
+    DASHBOARD_STATS, DASHBOARD_BARS, PARTNERSHIP_ITEMS,
+} from '../data/home.data';
 
 /* ─────────────────────────────────────────
    CountUp
@@ -34,53 +35,6 @@ function CountUp({ to, suffix = '', duration = 2000 }) {
 }
 
 /* ─────────────────────────────────────────
-   SLIDE DATA
-───────────────────────────────────────── */
-const SLIDES = [
-    /* ── 1: Main brand slide ── */
-    {
-        id: 'main',
-        badge: { icon: <Sparkles size={13} />, text: 'شركة تشغيلية متكاملة', bg: '#E0F7F4', color: '#00897B' },
-        headline: ['نبتكر', 'المفاهيم', 'ونقود', 'النمو'],
-        headlineAccent: [false, true, false, true],
-        sub: 'شركة تشغيلية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية.',
-        cta: { label: 'اكتشف علاماتنا', to: '/brands' },
-        ctaSecondary: { label: 'تعرف علينا', to: '/about' },
-        accentColor: '#00BFA5',
-        accentDark: '#00897B',
-        visual: 'dashboard',
-    },
-    /* ── 2: Offer / promo slide ── */
-    {
-        id: 'offer',
-        badge: { icon: <Tag size={13} />, text: 'عرض حصري محدود', bg: '#F5F3FF', color: '#6D28D9' },
-        headline: ['احصل على', 'استشارة', 'مجانية', 'الآن'],
-        headlineAccent: [false, true, false, false],
-        sub: 'نقدم لك جلسة استشارية مجانية لتحليل عملياتك وتحديد فرص الأتمتة والنمو — بدون أي التزام.',
-        cta: { label: 'احجز استشارتك', to: '/contact' },
-        ctaSecondary: { label: 'اعرف أكثر', to: '/services' },
-        accentColor: '#6D28D9',
-        accentDark: '#4C1D95',
-        visual: 'offer',
-    },
-    /* ── 3: Brand announcement slide ── */
-    {
-        id: 'brand',
-        badge: { icon: <Megaphone size={13} />, text: 'إعلان جديد', bg: '#FFF3EC', color: '#D4580F' },
-        headline: ['شفزار', 'تتوسع', 'في مناطق', 'جديدة'],
-        headlineAccent: [true, false, false, false],
-        sub: 'علامتنا التجارية الرائدة في قطاع الأغذية والمشروبات تفتح أبوابها في مواقع جديدة — تجربة طعام استثنائية تصل إليك.',
-        cta: { label: 'اكتشف شفزار', to: '/brands' },
-        ctaSecondary: { label: 'تواصل معنا', to: '/contact' },
-        accentColor: '#D4580F',
-        accentDark: '#A8420A',
-        visual: 'brand',
-    },
-];
-
-const INTERVAL_MS = 5500;
-
-/* ─────────────────────────────────────────
    Visual panels per slide
 ───────────────────────────────────────── */
 function DashboardVisual() {
@@ -97,12 +51,7 @@ function DashboardVisual() {
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mb-5">
-                    {[
-                        { label: 'العلامات النشطة', val: '5', color: '#00BFA5' },
-                        { label: 'نسبة الأتمتة', val: '94%', color: '#E8621A' },
-                        { label: 'معدل النمو', val: '+32%', color: '#7C3AED' },
-                        { label: 'رضا العملاء', val: '4.9★', color: '#F59E0B' },
-                    ].map((s, i) => (
+                    {DASHBOARD_STATS.map((s, i) => (
                         <div key={i} className="bg-[#F7F9FC] rounded-xl p-3">
                             <div className="font-black text-lg" style={{ color: s.color }}>{s.val}</div>
                             <div className="text-[#718096] text-xs">{s.label}</div>
@@ -110,11 +59,7 @@ function DashboardVisual() {
                     ))}
                 </div>
                 <div className="space-y-3">
-                    {[
-                        { label: 'F&B Operations', pct: 88 },
-                        { label: 'Digital Solutions', pct: 72 },
-                        { label: 'Market Expansion', pct: 60 },
-                    ].map((b, i) => (
+                    {DASHBOARD_BARS.map((b, i) => (
                         <div key={i}>
                             <div className="flex justify-between text-xs text-[#718096] mb-1">
                                 <span>{b.label}</span>
@@ -147,16 +92,16 @@ function OfferVisual() {
         <div className="hero-card-float relative w-full max-w-[420px] mx-auto">
             <div className="bg-white rounded-3xl border border-[#E2E8F0] p-7 shadow-card-hover text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-[#6D28D9] to-[#4C1D95] rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
-                    <Tag size={28} color="white" />
+                    <Rocket size={28} color="white" />
                 </div>
-                <div className="text-[#718096] text-xs mb-2 uppercase tracking-widest">عرض حصري</div>
-                <div className="text-[#1A2332] font-black text-3xl mb-1">استشارة مجانية</div>
-                <div className="text-[#6D28D9] font-bold text-sm mb-5">بدون أي التزام</div>
+                <div className="text-[#718096] text-xs mb-2 uppercase tracking-widest">انضم إلينا</div>
+                <div className="text-[#1A2332] font-black text-3xl mb-1">كن شريكنا</div>
+                <div className="text-[#6D28D9] font-bold text-sm mb-5">نبني معاً، ننمو معاً</div>
                 <div className="space-y-3 text-right mb-6">
                     {[
-                        'تحليل شامل للعمليات الحالية',
-                        'تحديد فرص الأتمتة والنمو',
-                        'خارطة طريق مخصصة لعملك',
+                        'محفظة علامات تجارية متنوعة',
+                        'تشغيل احترافي متكامل',
+                        'استراتيجيات نمو مدروسة',
                     ].map((item, i) => (
                         <div key={i} className="flex items-center gap-3">
                             <div className="w-5 h-5 rounded-full bg-[#F5F3FF] border border-[#6D28D9]/30 flex items-center justify-center flex-shrink-0">
@@ -167,7 +112,7 @@ function OfferVisual() {
                     ))}
                 </div>
                 <div className="bg-[#F5F3FF] border border-[#6D28D9]/20 rounded-xl p-3">
-                    <div className="text-[#6D28D9] text-xs font-bold">⏳ العرض محدود — لا تفوّت الفرصة</div>
+                    <div className="text-[#6D28D9] text-xs font-bold">🤝 تواصل معنا وابدأ رحلة النمو</div>
                 </div>
             </div>
             <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-card p-3 border border-[#E2E8F0]">
@@ -176,7 +121,7 @@ function OfferVisual() {
                         <Star size={15} fill="#6D28D9" />
                     </div>
                     <div>
-                        <div className="text-xs font-black text-[#1A2332]">تقييم العملاء</div>
+                        <div className="text-xs font-black text-[#1A2332]">شركاء موثوقون</div>
                         <div className="text-[10px] text-[#6D28D9]">4.9 / 5.0 ★</div>
                     </div>
                 </div>
@@ -240,15 +185,15 @@ function HeroSlider() {
         setProgressKey(k => k + 1);
     }, []);
 
-    const next = useCallback(() => goTo((current + 1) % SLIDES.length), [current, goTo]);
+    const next = useCallback(() => goTo((current + 1) % HERO_SLIDES.length), [current, goTo]);
 
     /* auto-advance */
     useEffect(() => {
-        timerRef.current = setTimeout(next, INTERVAL_MS);
+        timerRef.current = setTimeout(next, HERO_INTERVAL_MS);
         return () => clearTimeout(timerRef.current);
     }, [current, next]);
 
-    const slide = SLIDES[current];
+    const slide = HERO_SLIDES[current];
 
     return (
         <section className="relative flex flex-col overflow-hidden bg-gradient-to-br from-white via-[#F0FDFB] to-[#E0F7F4]">
@@ -272,7 +217,7 @@ function HeroSlider() {
 
             {/* ── Slides ── */}
             <div className="relative">
-                {SLIDES.map((s, idx) => (
+                {HERO_SLIDES.map((s, idx) => (
                     <div key={s.id} className={`hero-slide ${idx === current ? 'active' : ''}`}>
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 w-full min-h-screen flex flex-col justify-center">
                             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -376,7 +321,7 @@ function HeroSlider() {
 
                     {/* Dots */}
                     <div className="flex items-center gap-2">
-                        {SLIDES.map((_, idx) => (
+                        {HERO_SLIDES.map((_, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => goTo(idx)}
@@ -393,7 +338,7 @@ function HeroSlider() {
                                 key={progressKey}
                                 className="slide-progress-fill running"
                                 style={{
-                                    transitionDuration: `${INTERVAL_MS}ms`,
+                                    transitionDuration: `${HERO_INTERVAL_MS}ms`,
                                     background: slide.accentColor,
                                 }}
                             />
@@ -402,7 +347,7 @@ function HeroSlider() {
 
                     {/* Counter */}
                     <div className="text-[#A0AEC0] text-xs font-mono">
-                        {String(current + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}
+                        {String(current + 1).padStart(2, '0')} / {String(HERO_SLIDES.length).padStart(2, '0')}
                     </div>
                 </div>
             </div>
@@ -415,55 +360,6 @@ function HeroSlider() {
         </section>
     );
 }
-/* ─────────────────────────────────────────
-   Static data
-───────────────────────────────────────── */
-const stats = [
-    { icon: <Award size={22} />, value: 5, suffix: '+', label: 'علامات تجارية' },
-    { icon: <Globe size={22} />, value: 3, suffix: '+', label: 'قطاعات مستهدفة' },
-    { icon: <TrendingUp size={22} />, value: 100, suffix: '%', label: 'أتمتة شاملة' },
-    { icon: <Zap size={22} />, value: 10, suffix: '+', label: 'سنوات خبرة' },
-];
-
-const features = [
-    {
-        icon: <Lightbulb size={28} />,
-        title: 'نبتكر المفاهيم',
-        desc: 'نصمم علامات تجارية مبتكرة مدروسة بعمق، تجمع بين فهم السوق وتوقعات العملاء.',
-        color: '#00BFA5', bg: '#E0F7F4',
-    },
-    {
-        icon: <Settings size={28} />,
-        title: 'نؤتمت العمليات',
-        desc: 'نحول كل عملية تشغيلية إلى منظومة رقمية ذكية تعمل بكفاءة قصوى على مدار الساعة.',
-        color: '#E8621A', bg: '#FFF3EC',
-    },
-    {
-        icon: <Rocket size={28} />,
-        title: 'نقود النمو',
-        desc: 'نضع استراتيجيات توسع مدروسة مبنية على بيانات دقيقة لضمان نمو مستدام وحقيقي.',
-        color: '#7C3AED', bg: '#F5F3FF',
-    },
-];
-
-const testimonials = [
-    {
-        name: 'أحمد الشمري', role: 'مدير تنفيذي',
-        text: 'RBC Solutions غيّرت طريقة تفكيرنا في التشغيل. الأتمتة التي طبقوها وفّرت علينا ساعات عمل يومية.',
-        rating: 5,
-    },
-    {
-        name: 'سارة العتيبي', role: 'مؤسسة شركة ناشئة',
-        text: 'الفريق محترف جداً ويفهم احتياجات السوق السعودي بعمق. نتائج ملموسة من الشهر الأول.',
-        rating: 5,
-    },
-    {
-        name: 'محمد القحطاني', role: 'مستثمر',
-        text: 'محفظتهم التجارية متنوعة ومدروسة. شراكة استراتيجية حقيقية وليست مجرد خدمة.',
-        rating: 5,
-    },
-];
-
 /* ─────────────────────────────────────────
    HomePage
 ───────────────────────────────────────── */
@@ -482,7 +378,7 @@ export default function HomePage() {
             <section className="py-16 bg-white border-y border-[#E2E8F0]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                        {stats.map((s, i) => (
+                        {HOME_STATS.map((s, i) => (
                             <div key={i} className="stat-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                                 <div className="w-12 h-12 bg-white rounded-xl shadow-teal-sm flex items-center justify-center text-[#00BFA5] mx-auto mb-3">
                                     {s.icon}
@@ -512,7 +408,7 @@ export default function HomePage() {
                         </p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-                        {features.map((f, i) => (
+                        {HOME_FEATURES.map((f, i) => (
                             <div key={i} className="card p-8 text-center reveal" style={{ transitionDelay: `${i * 0.15}s` }}>
                                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: f.bg, color: f.color }}>
                                     {f.icon}
@@ -588,7 +484,7 @@ export default function HomePage() {
                         <div className="teal-divider reveal" />
                     </div>
                     <div className="grid md:grid-cols-3 gap-6">
-                        {testimonials.map((t, i) => (
+                        {HOME_TESTIMONIALS.map((t, i) => (
                             <div key={i} className="card p-6 reveal" style={{ transitionDelay: `${i * 0.12}s` }}>
                                 <div className="flex gap-0.5 mb-4">
                                     {[...Array(t.rating)].map((_, j) => <Star key={j} size={14} fill="#F59E0B" color="#F59E0B" />)}
