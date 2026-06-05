@@ -37,19 +37,21 @@ export default function Footer() {
                             </div>
                             <div>
                                 <div className="font-black text-lg">{FOOTER_BRAND.name}</div>
-                                <div className="text-[#00BFA5] text-xs font-semibold">{FOOTER_BRAND.tagline}</div>
+                                <div className="text-[#00BFA5] text-sm font-semibold">{FOOTER_BRAND.tagline}</div>
                             </div>
                         </div>
-                        <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-6">
+                        <p className="text-white/60 text-base leading-relaxed max-w-xs mb-6">
                             {FOOTER_BRAND.desc}
                         </p>
-                        {/* <div className="flex gap-3">
-                            {['in', 'X', '📸'].map((s, i) => (
-                                <button key={i} className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#00BFA5] flex items-center justify-center text-xs font-bold transition-all duration-200">
-                                    {s}
-                                </button>
-                            ))}
-                        </div> */}
+
+                        {/* QR — السجل التجاري */}
+                        <div className="bg-white rounded-2xl p-2 w-44 h-44 sm:w-48 sm:h-48">
+                            <img
+                                src="/cr-qr.jpg"
+                                alt="باركود السجل التجاري — شركة رواسخ الأعمال"
+                                className="w-full h-full object-contain"
+                            />
+                        </div>
                     </div>
 
                     {/* Links */}
@@ -58,7 +60,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {FOOTER_LINKS.map(l => (
                                 <li key={l.path}>
-                                    <Link to={l.path} className="text-white/50 hover:text-[#00BFA5] text-sm transition-colors duration-200">
+                                    <Link to={l.path} className="text-white/50 hover:text-[#00BFA5] text-base transition-colors duration-200">
                                         {l.label}
                                     </Link>
                                 </li>
@@ -70,24 +72,33 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold text-sm mb-5 text-white/90">تواصل معنا</h4>
                         <ul className="space-y-4">
-                            <li className="flex items-start gap-3 text-white/50 text-sm">
-                                <Mail size={15} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
+                            <li className="flex items-start gap-3 text-white/60 text-base">
+                                <Mail size={16} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
                                 {import.meta.env.VITE_EMAIL}
                             </li>
-                            <li className="flex items-start gap-3 text-white/50 text-sm">
-                                <Phone size={15} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
+                            <li className="flex items-start gap-3 text-white/60 text-base">
+                                <Phone size={16} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
                                 {import.meta.env.VITE_PHONE}
                             </li>
-                            <li className="flex items-start gap-3 text-white/50 text-sm">
-                                <MapPin size={15} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
+                            <li className="flex items-start gap-3 text-white/60 text-base">
+                                <MapPin size={16} className="text-[#00BFA5] flex-shrink-0 mt-0.5" />
                                 {import.meta.env.VITE_ADDRESS}
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="border-t border-white/10 mt-12 pt-6 flex flex-center sm:flex-row items-center justify-center gap-3">
-                    <p className="text-white/30 text-xs">© {year}  {FOOTER_BRAND.rights}</p>
+                <div className="border-t border-white/10 mt-8 pt-6 flex flex-col items-center gap-3 text-center">
+                    <p className="text-white/40 text-sm">© {year} {FOOTER_BRAND.rights}</p>
+                    <div className="flex items-center gap-5">
+                        <Link to="/privacy" className="text-white/50 hover:text-[#00BFA5] text-sm transition-colors duration-200 underline underline-offset-2">
+                            سياسة الخصوصية
+                        </Link>
+                        <span className="text-white/30 text-sm">|</span>
+                        <Link to="/terms" className="text-white/50 hover:text-[#00BFA5] text-sm transition-colors duration-200 underline underline-offset-2">
+                            الشروط والأحكام
+                        </Link>
+                    </div>
                 </div>
             </div>
         </footer>

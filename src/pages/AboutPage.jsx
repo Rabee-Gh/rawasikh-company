@@ -11,6 +11,11 @@ export default function AboutPage() {
             <Helmet>
                 <title>{ABOUT_PAGE_META.title}</title>
                 <meta name="description" content={ABOUT_PAGE_META.description} />
+                <link rel="canonical" href="https://rawasikhbusiness.com/about" />
+                <meta property="og:url" content="https://rawasikhbusiness.com/about" />
+                <meta property="og:title" content={ABOUT_PAGE_META.title} />
+                <meta property="og:description" content={ABOUT_PAGE_META.description} />
+                <meta property="og:image" content="https://rawasikhbusiness.com/logo.jpg" />
             </Helmet>
             {/* ── Page Hero ── */}
             <section className="relative py-20 sm:py-28 bg-gradient-to-br from-[#F0FDFB] to-white overflow-hidden">
@@ -28,8 +33,8 @@ export default function AboutPage() {
                     </div>
                     <div className="section-label mx-auto mb-5 reveal">من نحن</div>
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#1A2332] mb-6 reveal">
-                        نحن <span className="text-gradient-teal">مهندسو</span>
-                        <br />الكفاءة التشغيلية
+                        المظلة <span className="text-gradient-teal">الاستراتيجية</span>
+                        <br />لنمو وتكامل الأعمال
                     </h1>
                     <div className="teal-divider reveal" />
                     <p className="text-[#718096] text-base sm:text-lg max-w-3xl mx-auto mt-6 leading-relaxed reveal">

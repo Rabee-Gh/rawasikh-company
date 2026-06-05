@@ -14,7 +14,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 16.5px;
   overflow-x: hidden;
 }
 
@@ -25,6 +25,7 @@ body {
   direction: rtl;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
 }
 
 /* ── Scrollbar ── */
@@ -290,13 +291,13 @@ body {
 /* ── Responsive typography ── */
 @media (max-width: 640px) {
   html {
-    font-size: 15px;
+    font-size: 15.5px;
   }
 }
 
 @media (min-width: 1536px) {
   html {
-    font-size: 17px;
+    font-size: 18px;
   }
 }
 
@@ -460,4 +461,19 @@ body {
   border-radius: 50%;
   pointer-events: none;
   animation: particleDrift ease-in-out infinite;
+}
+
+/* ── Larger text-xs / text-sm on md+ screens ── */
+@media (min-width: 992px) {
+  .text-xs {
+    font-size: 1rem !important;
+    /* 14.4px بدل 13px */
+    line-height: 1.6;
+  }
+
+  .text-sm {
+    font-size: 1.1rem !important;
+    /* 16px بدل 15px */
+    line-height: 1.65;
+  }
 }

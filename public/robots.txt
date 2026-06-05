@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://rawasikhbusiness.com/sitemap.xml
+
+# Block unnecessary files
+Disallow: /src/
+Disallow: /node_modules/

@@ -12,6 +12,11 @@ export default function ServicesPage() {
             <Helmet>
                 <title>{SERVICES_PAGE_META.title}</title>
                 <meta name="description" content={SERVICES_PAGE_META.description} />
+                <link rel="canonical" href="https://rawasikhbusiness.com/services" />
+                <meta property="og:url" content="https://rawasikhbusiness.com/services" />
+                <meta property="og:title" content={SERVICES_PAGE_META.title} />
+                <meta property="og:description" content={SERVICES_PAGE_META.description} />
+                <meta property="og:image" content="https://rawasikhbusiness.com/logo.jpg" />
             </Helmet>
 
             {/* ── Hero ── */}

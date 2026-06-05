@@ -368,7 +368,12 @@ export default function HomePage() {
         <div>
             <Helmet>
                 <title>RBC Solutions | الرئيسية — حلول الأعمال المتكاملة</title>
-                <meta name="description" content="شركة تشغيلية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية." />
+                <meta name="description" content="شركة تشغيلية سعودية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية — شفزار، سويت، MLR Frozen." />
+                <link rel="canonical" href="https://rawasikhbusiness.com/" />
+                <meta property="og:url" content="https://rawasikhbusiness.com/" />
+                <meta property="og:title" content="RBC Solutions | حلول الأعمال المتكاملة" />
+                <meta property="og:description" content="شركة تشغيلية سعودية تمتلك وتدير محفظة من العلامات التجارية الرائدة في قطاع الأغذية والمشروبات والحلول الرقمية الذكية." />
+                <meta property="og:image" content="https://rawasikhbusiness.com/logo.jpg" />
             </Helmet>
 
             {/* ══ HERO SLIDER ══ */}

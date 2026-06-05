@@ -22,6 +22,11 @@ export default function ContactPage() {
             <Helmet>
                 <title>{CONTACT_PAGE_META.title}</title>
                 <meta name="description" content={CONTACT_PAGE_META.description} />
+                <link rel="canonical" href="https://rawasikhbusiness.com/contact" />
+                <meta property="og:url" content="https://rawasikhbusiness.com/contact" />
+                <meta property="og:title" content={CONTACT_PAGE_META.title} />
+                <meta property="og:description" content={CONTACT_PAGE_META.description} />
+                <meta property="og:image" content="https://rawasikhbusiness.com/logo.jpg" />
             </Helmet>
             {/* ── Hero ── */}
             <section className="relative py-20 sm:py-28 bg-gradient-to-br from-[#F0FDFB] to-white overflow-hidden">
@@ -79,8 +84,8 @@ export default function ContactPage() {
                                             {item.icon}
                                         </div>
                                         <div>
-                                            <div className="text-xs text-[#718096] mb-0.5">{item.label}</div>
-                                            <div className="font-semibold text-sm text-[#1A2332]">{item.val}</div>
+                                            <div className="text-sm text-[#718096] mb-0.5">{item.label}</div>
+                                            <div className="font-semibold text-base text-[#1A2332]">{item.val}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -137,28 +142,28 @@ export default function ContactPage() {
 
                                     <div className="grid sm:grid-cols-2 gap-4 mb-4">
                                         <div>
-                                            <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">الاسم الكامل *</label>
+                                            <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">الاسم الكامل *</label>
                                             <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="محمد أحمد" className="form-input" />
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">الشركة / المؤسسة</label>
+                                            <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">الشركة / المؤسسة</label>
                                             <input type="text" name="company" value={form.company} onChange={handleChange} placeholder="اسم الشركة" className="form-input" />
                                         </div>
                                     </div>
 
                                     <div className="grid sm:grid-cols-2 gap-4 mb-4">
                                         <div>
-                                            <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">البريد الإلكتروني *</label>
+                                            <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">البريد الإلكتروني *</label>
                                             <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="email@example.com" className="form-input" dir="ltr" />
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">رقم الهاتف</label>
+                                            <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">رقم الهاتف</label>
                                             <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+966 5X XXX XXXX" className="form-input" dir="ltr" />
                                         </div>
                                     </div>
 
                                     <div className="mb-4">
-                                        <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">سبب التواصل</label>
+                                        <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">سبب التواصل</label>
                                         <select name="reason" value={form.reason} onChange={handleChange} className="form-input">
                                             <option value="">اختر سبب التواصل</option>
                                             {CONTACT_REASONS.map(r => <option key={r.title} value={r.title}>{r.title}</option>)}
@@ -167,7 +172,7 @@ export default function ContactPage() {
                                     </div>
 
                                     <div className="mb-6">
-                                        <label className="text-xs font-semibold text-[#4A5568] mb-1.5 block">رسالتك *</label>
+                                        <label className="text-sm font-semibold text-[#4A5568] mb-1.5 block">رسالتك *</label>
                                         <textarea
                                             name="message"
                                             value={form.message}

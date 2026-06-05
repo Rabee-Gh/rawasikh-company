@@ -12,6 +12,11 @@ export default function BrandsPage() {
             <Helmet>
                 <title>{BRANDS_PAGE_META.title}</title>
                 <meta name="description" content={BRANDS_PAGE_META.description} />
+                <link rel="canonical" href="https://rawasikhbusiness.com/brands" />
+                <meta property="og:url" content="https://rawasikhbusiness.com/brands" />
+                <meta property="og:title" content={BRANDS_PAGE_META.title} />
+                <meta property="og:description" content={BRANDS_PAGE_META.description} />
+                <meta property="og:image" content="https://rawasikhbusiness.com/logo.jpg" />
             </Helmet>
             <section className="relative py-20 sm:py-28 bg-gradient-to-br from-[#FFF8F5] via-white to-[#F0FDFB] overflow-hidden">
                 <div className="hero-blob w-[350px] h-[350px] bg-[#E8621A] top-[-80px] right-[-80px]" />
