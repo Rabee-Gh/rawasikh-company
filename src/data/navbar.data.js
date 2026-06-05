@@ -17,5 +17,5 @@ export const NAV_CTA = {
 
 export const BRAND_INFO = {
     name:    'RBC Solutions',
-    tagline: 'حلول الأعمال المتكاملة',
+    tagline: 'شركة رواسخ الأعمال',
 };

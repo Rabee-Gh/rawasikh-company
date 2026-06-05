@@ -94,7 +94,7 @@ export default function SplashScreen({ onDone }) {
                     }}
                 >
                     <p className="text-[#00897B] text-sm sm:text-base font-semibold tracking-widest text-center uppercase">
-                        حلول الأعمال المتكاملة
+                        شركة رواسخ الأعمال
                     </p>
                 </div>
 
