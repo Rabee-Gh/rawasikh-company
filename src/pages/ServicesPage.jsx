@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { SERVICES, HOW_WE_WORK, SERVICES_PAGE_META, SERVICES_CTA } from '../data/services.data';
 
 export default function ServicesPage() {
-    const [expanded, setExpanded] = useState(null);
-
     return (
         <div className="pt-20">
             <Helmet>
@@ -41,47 +38,49 @@ export default function ServicesPage() {
                         {SERVICES.map((s, i) => (
                             <div
                                 key={i}
-                                className="card p-7 cursor-pointer reveal"
+                                className="card p-7 flex flex-col reveal"
                                 style={{ transitionDelay: `${i * 0.08}s` }}
-                                onClick={() => setExpanded(expanded === i ? null : i)}
                             >
+                                {/* Icon */}
                                 <div
-                                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300"
-                                    style={{ background: s.bg, color: s.color, transform: expanded === i ? 'scale(1.1)' : 'scale(1)' }}
+                                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0"
+                                    style={{ background: s.bg, color: s.color }}
                                 >
                                     {s.icon}
                                 </div>
-                                <div className="text-xs font-semibold mb-1" style={{ color: s.color }}>{s.subtitle}</div>
+
+                                <div className="text-xs font-semibold mb-1 uppercase tracking-widest" style={{ color: s.color }}>
+                                    {s.subtitle}
+                                </div>
                                 <h3 className="text-xl font-black text-[#1A2332] mb-3">{s.title}</h3>
-                                <p className="text-[#718096] text-sm leading-relaxed mb-4">{s.desc}</p>
+                                <p className="text-[#718096] text-sm sm:text-base leading-relaxed mb-5 flex-1">{s.desc}</p>
 
                                 {/* Process steps */}
-                                <div className="flex gap-1 mb-4 flex-wrap">
+                                <div className="flex flex-wrap gap-1.5 mb-6">
                                     {s.process.map((step, j) => (
-                                        <div key={j} className="flex items-center gap-1">
-                                            <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: s.bg, color: s.color }}>
-                                                {step}
-                                            </span>
-                                            {j < s.process.length - 1 && <span className="text-[#CBD5E0] text-xs">←</span>}
-                                        </div>
+                                        <span
+                                            key={j}
+                                            className="text-xs px-2.5 py-1 rounded-full font-semibold"
+                                            style={{ background: s.bg, color: s.color }}
+                                        >
+                                            {step}
+                                        </span>
                                     ))}
                                 </div>
 
-                                {/* Expandable points */}
-                                <div className={`overflow-hidden transition-all duration-400 ${expanded === i ? 'max-h-96' : 'max-h-0'}`}>
-                                    <div className="pt-4 border-t border-[#E2E8F0] space-y-2">
-                                        {s.points.map((p, j) => (
-                                            <div key={j} className="flex items-start gap-2 text-sm text-[#4A5568]">
-                                                <CheckCircle size={15} className="flex-shrink-0 mt-0.5" style={{ color: s.color }} />
-                                                {p}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <button className="mt-4 text-sm font-semibold flex items-center gap-1" style={{ color: s.color }}>
-                                    {expanded === i ? 'إخفاء التفاصيل ↑' : 'عرض التفاصيل ↓'}
-                                </button>
+                                {/* Link to detail page */}
+                                <Link
+                                    to={`/services/${s.slug}`}
+                                    className="inline-flex items-center justify-center gap-2 font-bold rounded-full px-6 py-3 text-sm transition-all duration-300 hover:-translate-y-0.5"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${s.color}, ${s.color}CC)`,
+                                        color: '#fff',
+                                        boxShadow: `0 4px 16px ${s.color}33`,
+                                    }}
+                                >
+                                    عرض التفاصيل
+                                    <ArrowLeft size={15} />
+                                </Link>
                             </div>
                         ))}
                     </div>
@@ -101,7 +100,9 @@ export default function ServicesPage() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                         {HOW_WE_WORK.map((step, i) => (
                             <div key={i} className="card p-6 text-center reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
-                                <div className="w-12 h-12 rounded-xl bg-[#E0F7F4] flex items-center justify-center text-[#00BFA5] mx-auto mb-3">{step.icon}</div>
+                                <div className="w-12 h-12 rounded-xl bg-[#E0F7F4] flex items-center justify-center text-[#00BFA5] mx-auto mb-3">
+                                    {step.icon}
+                                </div>
                                 <div className="text-3xl font-black text-[#00BFA5]/30 mb-2">{step.num}</div>
                                 <h4 className="font-black text-[#1A2332] mb-2">{step.title}</h4>
                                 <p className="text-[#718096] text-sm leading-relaxed">{step.desc}</p>

@@ -15,6 +15,7 @@ import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -68,6 +69,7 @@ function AnimatedRoutes() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/services/:slug" element={<ServiceDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>
